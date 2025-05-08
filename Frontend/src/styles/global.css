@@ -1,0 +1,25 @@
+:root {
+    /* Colores base */
+    --primary: #ff6b6b;
+    --secondary: #4a90e2;
+    --highlight: #ffd93d;
+  
+    --background: #3a3a3a;
+    --layout-color: #141414;
+
+    --text: #fff;
+    --text2: #444444;
+}
+
+body {
+    background-color:var(--background);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+main {
+    margin: 30px auto;
+    width: 50%;
+}

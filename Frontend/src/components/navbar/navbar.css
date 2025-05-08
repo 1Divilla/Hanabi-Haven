@@ -1,0 +1,147 @@
+header {
+  background-color: var(--layout-color);
+  color: var(--text);
+  justify-content: center;
+  display: flex;
+  padding-top: 10px;
+  width: 100%;
+  min-height: 100px;
+  border-bottom: 1px solid rgb(235, 235, 235);
+}
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+}
+
+.nav-logo img {
+  width: 70px;
+  padding: 10px;
+  height: auto;
+  object-fit: contain;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-hub,
+.navbar-user {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  width: 100%;
+}
+
+.navbar-menu,
+.navbar-auth {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  list-style: none; 
+  padding: 0;
+}
+
+.nav-user-slog {
+  display: flex;
+  justify-content: end;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.nav-hub-slog {
+  margin-left: 10px;
+}
+
+.nav-user-slog {
+  margin-right: 15px;
+}
+
+.nav-item {
+  padding: 10px;
+  color: var(--text);
+}
+
+.nav-item span {
+  padding-left: 5px;
+}
+
+.nav-item a {
+  display: flex;
+  align-items: center;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-item a:hover {
+  color: var(--highlight);
+}
+
+.icon-svg {
+  width: 22px;
+  height: auto;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 15px;
+}
+
+.login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  padding: 8px 16px;
+  background-color: #ff6b6b;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  font-weight: 500;
+}
+
+.login-button:hover {
+  background-color: #ff5252;
+}
+
+.login-button span {
+  padding-left: 0;
+}
+
+@media (max-width: 760px) {
+  .navbar-auth .nav-item:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 660px) {
+  .navbar {
+    flex-direction: column;
+  }
+  
+  .nav-hub-slog {
+    margin-left: 5px;
+  }
+
+  .nav-user-slog  {
+    padding: 0;
+    display: none;
+  }
+  
+  .navbar-auth{
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-item {
+    padding: 0 5px;
+  }
+}
