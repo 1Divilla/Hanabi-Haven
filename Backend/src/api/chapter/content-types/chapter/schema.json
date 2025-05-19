@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chapters",
+  "info": {
+    "singularName": "chapter",
+    "pluralName": "chapters",
+    "displayName": "Chapter",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": false
+    },
+    "textContent": {
+      "type": "richtext",
+      "required": false
+    },
+    "imageContent": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "number": {
+      "type": "decimal",
+      "required": true
+    },
+    "comment_chapters": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comment-chapter.comment-chapter",
+      "mappedBy": "chapter"
+    },
+    "histories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::history.history",
+      "mappedBy": "chapter"
+    }
+  }
+}

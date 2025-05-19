@@ -1,0 +1,110 @@
+{
+  "kind": "collectionType",
+  "collectionName": "books",
+  "info": {
+    "singularName": "book",
+    "pluralName": "books",
+    "displayName": "Book",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "novel",
+        "manga",
+        "manhwa",
+        "manhua",
+        "comic"
+      ],
+      "required": true
+    },
+    "bookStatus": {
+      "type": "enumeration",
+      "enum": [
+        "ongoing",
+        "hiatus",
+        "completed",
+        "abandoned"
+      ],
+      "required": true
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "totalViews": {
+      "type": "integer"
+    },
+    "weeklyViews": {
+      "type": "integer"
+    },
+    "language": {
+      "type": "enumeration",
+      "enum": [
+        "ES",
+        "EN",
+        "FR",
+        "DE",
+        "IT",
+        "PT",
+        "RU",
+        "ZH",
+        "JA",
+        "KO"
+      ],
+      "required": true
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "chapters": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chapter.chapter"
+    },
+    "comment_books": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comment-book.comment-book",
+      "mappedBy": "book"
+    },
+    "genres": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::genre.genre",
+      "mappedBy": "books"
+    },
+    "author": {
+      "type": "string"
+    },
+    "library": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::library.library",
+      "inversedBy": "books"
+    },
+    "histories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::history.history",
+      "mappedBy": "book"
+    }
+  }
+}

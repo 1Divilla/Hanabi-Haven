@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "comment_chapters",
+  "info": {
+    "singularName": "comment-chapter",
+    "pluralName": "comment-chapters",
+    "displayName": "CommentChapter",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "chapter": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::chapter.chapter",
+      "inversedBy": "comment_chapters"
+    },
+    "content": {
+      "type": "text"
+    },
+    "isApproved": {
+      "type": "boolean",
+      "default": false
+    },
+    "comment_replies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comment-reply.comment-reply"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "comment_chapter"
+    }
+  }
+}

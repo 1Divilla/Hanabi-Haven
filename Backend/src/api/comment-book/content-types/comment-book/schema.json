@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "comment_books",
+  "info": {
+    "singularName": "comment-book",
+    "pluralName": "comment-books",
+    "displayName": "CommentBook",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "book": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::book.book",
+      "inversedBy": "comment_books"
+    },
+    "content": {
+      "type": "text"
+    },
+    "isApproved": {
+      "type": "boolean",
+      "default": false,
+      "required": false
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "comment_book"
+    },
+    "comment_replies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comment-reply.comment-reply"
+    }
+  }
+}

@@ -66,11 +66,48 @@
       "configurable": false
     },
     "avatar": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "comment_book": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::comment-book.comment-book",
+      "mappedBy": "users_permissions_user"
+    },
+    "comment_chapter": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::comment-chapter.comment-chapter",
+      "mappedBy": "users_permissions_user"
+    },
+    "comment_reply": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::comment-reply.comment-reply",
+      "mappedBy": "users_permissions_user"
+    },
+    "histories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::history.history",
+      "mappedBy": "users_permissions_user"
+    },
+    "notifications": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::notification.notification",
+      "mappedBy": "users_permissions_user"
+    },
+    "libraries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::library.library",
+      "mappedBy": "users_permissions_user"
     }
   }
 }

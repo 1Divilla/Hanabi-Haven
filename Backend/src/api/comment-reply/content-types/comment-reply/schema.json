@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "comment_replies",
+  "info": {
+    "singularName": "comment-reply",
+    "pluralName": "comment-replies",
+    "displayName": "CommentReply",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "content": {
+      "type": "text"
+    },
+    "isApproved": {
+      "type": "boolean"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "comment_reply"
+    },
+    "comment_chapter": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::comment-chapter.comment-chapter",
+      "inversedBy": "comment_replies"
+    },
+    "comment_book": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::comment-book.comment-book",
+      "inversedBy": "comment_replies"
+    }
+  }
+}

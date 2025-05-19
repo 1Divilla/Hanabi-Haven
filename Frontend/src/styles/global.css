@@ -1,25 +1,37 @@
 :root {
-    /* Colores base */
-    --primary: #ff6b6b;
-    --secondary: #4a90e2;
-    --highlight: #ffd93d;
-  
-    --background: #3a3a3a;
-    --layout-color: #141414;
-
-    --text: #fff;
-    --text2: #444444;
+    /* Colores principales del logo */
+    --primary: #0F6AA6;
+    --secondary: #F5EFD9;
+    --terciary: #9b9292;
+    --highlight: #1A8ED1;
+    
+    /* Colores de fondo */
+    --background: #242526;
+    --second-bg: #2A2B2D;
+    --layout-color: #18191A;
+    
+    /* Colores de texto */
+    --text: #FFFFFF;
+    --text2: #E0E0E0;
+    
+    /* Colores de botones */
+    --advise-button: #E74C3C;
+    --advise-button-hover: #C0392B;
+    --success-button: #4CAF50;
+    --success-hover: #45a049;
+    --logout-button: #F39200;
+    --logout-hover: #D67E00;
 }
 
 body {
     background-color:var(--background);
+    display: grid;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
+    grid-template-rows: auto 1fr auto;
 }
 
 main {
     margin: 30px auto;
-    width: 50%;
+    width: 90%;
+    max-width: 1200px;
 }

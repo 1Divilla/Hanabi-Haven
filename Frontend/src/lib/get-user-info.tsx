@@ -10,7 +10,6 @@ export function getUserInfo() {
   
   // A partir de aquí, sabemos que estamos en el navegador
   const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
-  console.log("Token encontrado para getUserInfo:", token);
   
   if (token) {
     return query("users/me?populate=*", {
@@ -19,10 +18,9 @@ export function getUserInfo() {
       }
     })
       .then(res => {
-        console.log("Respuesta completa de la API de usuario:", res);
         // Verificar la estructura de la respuesta
         if (res && res.data) {
-          // Asegurarse de que estamos devolviendo la estructura correcta
+          // Asegurarse de estructura correcta
           return res.data;
         } else if (res) {
           // Si res existe pero no tiene una propiedad data, devolver res directamente

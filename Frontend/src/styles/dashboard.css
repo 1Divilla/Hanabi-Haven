@@ -1,0 +1,92 @@
+/* ===== CONTENEDOR PRINCIPAL DEL DASHBOARD ===== */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* ===== BARRA LATERAL DEL DASHBOARD ===== */
+.dashboard-sidebar {
+    background-color: var(--layout-color);
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px;
+}
+
+/* ===== TARJETA DE USUARIO ===== */
+.user-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px;
+    height: 100px;
+}
+
+.profile-avatar {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
+    border-radius: 30%;
+}
+
+.user-meta {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+}
+
+.username {
+    color: var(--text);
+    font-size: 1.8rem;
+    padding-left: 15px;
+    border-left: 4px solid var(--highlight);
+}
+
+/* ===== NAVEGACIÓN DEL PERFIL ===== */
+.dashboard-nav {
+    border-top: 2px solid var(--primary);
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 10px 0;
+}
+
+.nav-item {
+    display: flex;
+    transition: all 0.3s ease;
+}
+
+.nav-link {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    display: flex;
+    gap: 10px;
+    font-size: 1rem;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+    padding-bottom: 8px;
+}
+
+.nav-link.active {
+    border-bottom-color: var(--highlight);
+    background-color: transparent;
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.content-box {
+    background-color: var(--layout-color);
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+}
+

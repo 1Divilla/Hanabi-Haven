@@ -19,7 +19,7 @@
         "images"
       ]
     },
-    "wellcomeMenssage": {
+    "wellcomeMessage": {
       "type": "string",
       "maxLength": 42,
       "required": true,

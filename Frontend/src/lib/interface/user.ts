@@ -1,4 +1,7 @@
 import { StrapiImage } from "./image"
+import { CommentBook } from "./commentBook"
+import { CommentChapter } from "./commentChapter"
+import { CommentReply } from "./commentReply"
 
 export interface User {
     id: number
@@ -16,4 +19,7 @@ export interface User {
         type: string
     }
     avatar: StrapiImage
+    comment_books?: CommentBook[]
+    comment_chapters?: CommentChapter[]
+    comment_reply?: CommentReply
 }

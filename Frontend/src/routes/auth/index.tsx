@@ -23,13 +23,14 @@ export const useRegisterAction = routeAction$(async (data, { env }) => {
     );
 
     const result = await response.json();
+    console.log("Respuesta del registro:", result);
 
     if (!response.ok) {
       throw new Error(result.error?.message || "Error en el registro");
     }
-
     return { success: true };
   } catch (error) {
+    console.error("Error en el registro:", error);
     return { error: (error as Error).message };
   }
 });
@@ -50,7 +51,7 @@ export const useLoginAction = routeAction$(async (data, { env, cookie }) => {
     );
 
     const result = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(result.error?.message || "Error en el inicio de sesión");
     }
@@ -61,11 +62,14 @@ export const useLoginAction = routeAction$(async (data, { env, cookie }) => {
       secure: true,
       maxAge: 60 * 60 * 24 * 7,
     });
-    
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('jwt', result.jwt);
-      sessionStorage.setItem('jwt', result.jwt);
-      console.log("Token guardado en localStorage y sessionStorage:", result.jwt);
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("jwt", result.jwt);
+      sessionStorage.setItem("jwt", result.jwt);
+      console.log(
+        "Token guardado en localStorage y sessionStorage:",
+        result.jwt
+      );
     }
 
     return { success: true, jwt: result.jwt, user: result.user };
@@ -106,12 +110,12 @@ export default component$(() => {
                 if (!isLogin.value && data.detail?.value?.success) {
                   showSuccess.value = true;
                 } else if (isLogin.value && data.detail?.value?.success) {
-                  // Asegúrate de que el token se guarde antes de redirigir
-                  if (typeof window !== 'undefined') {
+                  if (typeof window !== "undefined") {
                     // Acceder directamente al token JWT
-                    const jwt = (data.detail?.value as { jwt?: string })?.jwt || '';
-                    localStorage.setItem('jwt', jwt);
-                    sessionStorage.setItem('jwt', jwt);
+                    const jwt =
+                      (data.detail?.value as { jwt?: string })?.jwt || "";
+                    localStorage.setItem("jwt", jwt);
+                    sessionStorage.setItem("jwt", jwt);
                     console.log("Token guardado antes de redirigir:", jwt);
                   }
                   window.location.href = "/";
@@ -160,7 +164,7 @@ export default component$(() => {
               {!isLogin.value && registerAction.value?.error && (
                 <div class="error-message">{registerAction.value?.error}</div>
               )}
-              
+
               {isLogin.value && loginError.value && (
                 <div class="error-message">{loginError.value}</div>
               )}
@@ -174,10 +178,12 @@ export default component$(() => {
                   {isLogin.value
                     ? "Don't have an account?"
                     : "Already have an account?"}
-                  <a onClick$={() => {
-                    isLogin.value = !isLogin.value;
-                    loginError.value = "";
-                  }}>
+                  <a
+                    onClick$={() => {
+                      isLogin.value = !isLogin.value;
+                      loginError.value = "";
+                    }}
+                  >
                     {isLogin.value ? "Register" : "Login"}
                   </a>
                 </p>

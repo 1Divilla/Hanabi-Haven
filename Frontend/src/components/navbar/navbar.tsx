@@ -22,22 +22,21 @@ export const Header = component$(() => {
   const navbarInfo = useSignal<Navbar>({} as Navbar);
   const userInfo = useSignal<User>({} as User);
   const isAuthenticated = useSignal(false);
+  const isPublisher = useSignal(false);
 
   useTask$(async () => {
     navbarInfo.value = (await getNavbarInfo()) as Navbar;
   });
   useVisibleTask$(async () => {
-    const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
+    const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
 
     isAuthenticated.value = !!token;
-    
+
     if (token) {
       const userData = await getUserInfo();
-      
       if (userData) {
         userInfo.value = userData as User;
-      } else {
-        console.log("No se pudo obtener la información del usuario");
+        isPublisher.value = userData.role?.type === "publisher";
       }
     }
   });
@@ -60,9 +59,7 @@ export const Header = component$(() => {
         </a>
         <div class="navbar">
           <nav class="navbar-hub">
-            <span class="nav-hub-slog">
-              {navbarInfo.value.wellcomeMenssage}
-            </span>
+            <span class="nav-hub-slog">{navbarInfo.value.wellcomeMessage}</span>
             <ul class="navbar-menu">
               <li class="nav-item">
                 <a href="/browse" class="nav-link" title="Explore our Content">
@@ -95,32 +92,36 @@ export const Header = component$(() => {
 
           {isAuthenticated.value ? (
             <nav class="navbar-user">
-              <span class="nav-user-slog">Bienvenido {userInfo.value?.username}</span>
+              <span class="nav-user-slog">
+                Bienvenido {userInfo.value?.username}
+              </span>
               <ul class="navbar-auth">
-                <li class="nav-item">
-                  <a
-                    href="/dashboard"
-                    class="nav-link"
-                    title="Manage and upload your content"
-                  >
-                    <DashboardSvg class="icon-svg" />
-                    <span>Dashboard</span>
-                  </a>
-                </li>
+                {isPublisher.value && (
+                  <li class="nav-item">
+                    <a
+                      href="/dashboard"
+                      class="nav-link"
+                      title="Manage and upload your content"
+                    >
+                      <DashboardSvg class="icon-svg" />
+                      <span>Dashboard</span>
+                    </a>
+                  </li>
+                )}
                 <li class="nav-item">
                   <a href="/profile" class="nav-link">
                     <UserSvg class="icon-svg" />
-                    <span>Profile</span>
+                    <span>Perfil</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/library" class="nav-link">
+                  <a href="/profile?tab=library" class="nav-link">
                     <BookSvg class="icon-svg" />
-                    <span>Library</span>
+                    <span>Biblioteca</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/messages" class="nav-link">
+                  <a href="/profile?tab=messages" class="nav-link">
                     <MailSvg class="icon-svg" />
                     <span></span>
                   </a>
