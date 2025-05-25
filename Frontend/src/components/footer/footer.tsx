@@ -1,54 +1,59 @@
-import { component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useStyles$, useTask$ } from "@builder.io/qwik";
 import styless from './footer.css?inline';
 import { getNavbarInfo } from "~/lib/get-navbar-info";
 import { Navbar } from "~/lib/interface/navbar";
+import { Link } from "@builder.io/qwik-city";
 
 export const Footer = component$(() => {
-  useStylesScoped$(styless);
+  useStyles$(styless);
 
   const navbarInfo = useSignal<Navbar>({} as Navbar);
     
-    useTask$(async ({  }) => {
-        navbarInfo.value = await getNavbarInfo() as Navbar;
-    });
+  useTask$(async () => {
+    try {
+      navbarInfo.value = (await getNavbarInfo()) as Navbar;
+    } catch (error) {
+      console.error("Error al obtener información de foother:", error);
+    }
+  });
     
   return (
-    <footer>
+    <footer style={styless}>
       <div class="bottom-wrapper">
           <div class="bottom-logo">
-              <a href="/" class="footer-logo">
+              <Link href="/" class="footer-logo">
                 <img src={import.meta.env.PUBLIC_STRAPI_HOST+navbarInfo.value.logotype.url} alt="web-logo"/>
-              </a>
+              </Link>
               <span class="bottom-slog"></span>
           </div>
           <div class="bottom-hub">
               <ul class="bottom-row">
                   <li class="bottom-item">
-                      <a href="/terms" class="bottom-link">
+                      <Link href="/terms" class="bottom-link">
                           <span>Term & Conditions</span>
-                      </a>
+                      </Link>
                   </li>
                   <li class="bottom-item">
-                      <a href="/about-us" class="bottom-link">
+                      <Link href="/about-us" class="bottom-link">
                           <span>About us</span>
-                      </a>
+                      </Link>
                   </li>
               </ul>
               <ul class="bottom-row">
                   <li class="bottom-item">
-                      <a href="https://x.com" class="bottom-link">
+                      <Link href="https://x.com" class="bottom-link">
                           <span>Twitter</span>
-                      </a>
+                      </Link>
                   </li>
                   <li class="bottom-item">
-                      <a href="https://www.facebook.com" class="bottom-link">
+                      <Link href="https://www.facebook.com" class="bottom-link">
                           <span>Facebook</span>
-                      </a>
+                      </Link>
                   </li>
                   <li class="bottom-item">
-                      <a href="https://www.instagram.com" class="bottom-link">
+                      <Link href="https://www.instagram.com" class="bottom-link">
                           <span>Instagram</span>
-                      </a>
+                      </Link>
                   </li>
               </ul>
           </div>

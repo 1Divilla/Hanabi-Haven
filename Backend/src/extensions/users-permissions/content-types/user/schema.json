@@ -77,18 +77,6 @@
       "target": "api::chapter.chapter",
       "mappedBy": "users_permissions_user"
     },
-    "comment_books": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::comment-book.comment-book",
-      "mappedBy": "users_permissions_user"
-    },
-    "comment_chapters": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::comment-chapter.comment-chapter",
-      "mappedBy": "users_permissions_user"
-    },
     "comment_replies": {
       "type": "relation",
       "relation": "oneToMany",
@@ -99,12 +87,6 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::history.history",
-      "mappedBy": "users_permissions_user"
-    },
-    "libraries": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::library.library",
       "mappedBy": "users_permissions_user"
     },
     "notifications": {

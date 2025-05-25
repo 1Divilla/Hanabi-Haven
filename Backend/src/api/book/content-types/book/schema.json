@@ -45,9 +45,6 @@
     "totalViews": {
       "type": "integer"
     },
-    "weeklyViews": {
-      "type": "integer"
-    },
     "language": {
       "type": "enumeration",
       "enum": [
@@ -80,28 +77,10 @@
       "target": "api::chapter.chapter",
       "mappedBy": "book"
     },
-    "comment_books": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::comment-book.comment-book",
-      "mappedBy": "book"
-    },
     "genres": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::genre.genre",
-      "mappedBy": "books"
-    },
-    "libraries": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::library.library",
-      "mappedBy": "books"
-    },
-    "histories": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::history.history",
       "mappedBy": "books"
     },
     "users_permissions_user": {

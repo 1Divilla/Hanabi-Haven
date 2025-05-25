@@ -1,11 +1,12 @@
-import { component$, useStylesScoped$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import { component$, useStyles$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import { getBookInfo } from "~/lib/get-book-info";
 import styless from "./featured-carousel.css?inline";
 import type { Book } from "~/lib/interface/book";
+import { Link } from "@builder.io/qwik-city";
 
 export const FeaturedCarousel = component$(() => {
-  useStylesScoped$(styless);
-  
+  useStyles$(styless);
+
   const featuredBooks = useSignal<Book[]>([]);
   const currentIndex = useSignal(0);
   const isLoading = useSignal(true);
@@ -102,7 +103,7 @@ export const FeaturedCarousel = component$(() => {
                     <span class="book-status">{book.bookStatus}</span>
                     <span class="book-views">Views {book.totalViews}</span>
                   </div>
-                  <a href={`/book/${book.documentId}`} class="read-button">Leer ahora</a>
+                  <Link href={`/b/${book.documentId}`} class="read-button">Leer ahora</Link>
                 </div>
               </div>
             ))}

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_history_register_history_registers",
+  "info": {
+    "displayName": "historyRegister"
+  },
+  "options": {},
+  "attributes": {
+    "chapter": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::chapter.chapter"
+    },
+    "date": {
+      "type": "datetime"
+    }
+  }
+}

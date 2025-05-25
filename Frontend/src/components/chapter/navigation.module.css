@@ -1,0 +1,26 @@
+.button {
+padding: 0.6rem 1rem;
+font-size: 0.9rem;
+color: var(--text);
+text-decoration: none;
+border-radius: 8px;
+background: var(--highlight);
+text-decoration: none;
+
+    @media (max-width: 480px){
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    :hover {
+        background: var(--primary);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.nav{
+    justify-content: center;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}

@@ -3,7 +3,7 @@ import {
   component$,
   noSerialize,
   useSignal,
-  useStylesScoped$,
+  useStyles$,
   useVisibleTask$,
 } from "@builder.io/qwik";
 import { Footer } from "~/components/footer/footer";
@@ -15,7 +15,7 @@ import styless from "~/styles/dashboard.css?inline";
 import { uploadMultipleOrSingleAction } from "~/lib/uploadMultipleOrSingleAction";
 
 export default component$(() => {
-  useStylesScoped$(styless);
+  useStyles$(styless);
   const userInfo = useSignal<User>({} as User);
   const strapiHost = useSignal(import.meta.env.PUBLIC_STRAPI_HOST || "");
   const activeTab = useSignal("my-works");

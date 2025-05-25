@@ -1,5 +1,5 @@
-import { component$, useStylesScoped$, useSignal } from "@builder.io/qwik";
-import { routeAction$, Form } from "@builder.io/qwik-city";
+import { component$, useStyles$, useSignal } from "@builder.io/qwik";
+import { routeAction$, Form, Link } from "@builder.io/qwik-city";
 import styless from "~/styles/auth.css?inline";
 import LockSvg from "~/media/icons/lock-svg.svg?jsx";
 import MailSvg from "~/media/icons/mail-svg.svg?jsx";
@@ -79,7 +79,7 @@ export const useLoginAction = routeAction$(async (data, { env, cookie }) => {
 });
 
 export default component$(() => {
-  useStylesScoped$(styless);
+  useStyles$(styless);
   const isLogin = useSignal(true);
   const registerAction = useRegisterAction();
   const loginAction = useLoginAction();
@@ -125,9 +125,9 @@ export default component$(() => {
               }}
             >
               <h2>
-                <a href="/">
+                <Link href="/">
                   <ReturnSvg />
-                </a>
+                </Link>
                 {isLogin.value ? "Login" : "Registro"}
               </h2>
 
@@ -178,14 +178,14 @@ export default component$(() => {
                   {isLogin.value
                     ? "Don't have an account?"
                     : "Already have an account?"}
-                  <a
+                  <Link
                     onClick$={() => {
                       isLogin.value = !isLogin.value;
                       loginError.value = "";
                     }}
                   >
                     {isLogin.value ? "Register" : "Login"}
-                  </a>
+                  </Link>
                 </p>
               </div>
             </Form>

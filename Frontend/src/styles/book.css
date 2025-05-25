@@ -1,0 +1,230 @@
+/* ===== ESTRUCTURA PRINCIPAL MEJORADA ===== */
+.book-detail-container {
+  background: var(--layout-color);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 2.5rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== CABECERA CON DISEÑO MODERNO ===== */
+.book-header {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  margin-bottom: 3rem;
+}
+
+.book-cover-container {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.book-cover-container:hover {
+  transform: translateY(-5px);
+}
+
+/* ===== INFORMACIÓN PRINCIPAL ===== */
+.book-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.book-title {
+  color: var(--text);
+  font-size: 2.4rem;
+  line-height: 1.2;
+  margin: 0 0 1rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.book-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--highlight);
+  border-radius: 2px;
+}
+
+/* ===== METADATOS CON DISEÑO MEJORADO ===== */
+.book-meta {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.book-type,
+.book-language,
+.book-status {
+  background: var(--second-bg);
+  color: var(--text2);
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.95em;
+  border: 1px solid var(--primary);
+}
+
+/* ===== BOTONES CON EFECTOS MEJORADOS ===== */
+.book-actions {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+.favorite-button,
+.library-button {
+  background: linear-gradient(145deg, var(--primary), var(--highlight));
+  color: var(--text);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.favorite-button:hover,
+.library-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== SECCIONES CON DISEÑO MÁS PULIDO ===== */
+.book-description {
+  background: var(--second-bg);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  border-left: 4px solid var(--highlight);
+}
+
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ===== RESPONSIVE MEJORADO ===== */
+@media (max-width: 768px) {
+  .book-header {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .book-cover-container {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+
+/* ===== CONTADOR DE VISTAS ===== */
+.views-container {
+    background: var(--second-bg);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid var(--primary);
+}
+
+.views-label {
+    color: var(--text2);
+    font-size: 0.95rem;
+}
+
+.views-count {
+    color: var(--highlight);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* ===== BOTONES DE ESTADO MEJORADOS ===== */
+.favorite-button[data-added="true"],
+.library-button[data-status="leyendo"] {
+    background: var(--success-button);
+    opacity: 0.9;
+}
+
+.library-button[data-status="por leer"] {
+    background: var(--highlight);
+    opacity: 0.9;
+}
+
+/* ===== ESTILOS PARA GÉNEROS ===== */
+.genres-section {
+    margin: 2rem 0;
+}
+
+.genre-tag {
+    background: var(--primary);
+    color: var(--text);
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    margin: 0.3rem;
+    display: inline-block;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease;
+}
+
+.genre-tag:hover {
+    transform: translateY(-2px);
+}
+
+/* ===== CAPÍTULOS CON ESTILO MEJORADO ===== */
+.chapter-card {
+    background: var(--second-bg);
+    color: var(--text);
+    padding: 1.2rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--highlight);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.chapter-card:hover {
+    transform: translateX(8px);
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+}
+
+.chapter-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.8rem;
+    color: var(--text2);
+    font-size: 0.9rem;
+}
+
+.book-views {
+    background: var(--second-bg);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .book-header {
+        padding: 1.5rem;
+    }
+    
+    .chapter-card {
+        padding: 1rem;
+    }
+
+    .book-title {
+      font-size: 1.2rem;
+      line-height: 1;
+      position: relative;
+    }
+}

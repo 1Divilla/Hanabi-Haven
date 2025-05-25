@@ -1,12 +1,8 @@
 import { Book } from "./book"
 
-export interface Genre {
-    id?: number
-    documentId: string
+import { Collection } from "./collection"
+export interface Genre extends Collection {
     name: string
     description?: string
     books?: Book[]
-    createdAt?: string
-    updatedAt?: string
-    publishedAt?: string
 }

@@ -34,18 +34,6 @@
       "target": "api::book.book",
       "inversedBy": "chapters"
     },
-    "comment_chapters": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::comment-chapter.comment-chapter",
-      "mappedBy": "chapter"
-    },
-    "histories": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::history.history",
-      "mappedBy": "chapters"
-    },
     "users_permissions_user": {
       "type": "relation",
       "relation": "manyToOne",

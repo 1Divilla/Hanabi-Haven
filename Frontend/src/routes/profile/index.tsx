@@ -2,7 +2,7 @@ import {
   $,
   component$,
   useSignal,
-  useStylesScoped$,
+  useStyles$,
   useVisibleTask$,
   noSerialize,
 } from "@builder.io/qwik";
@@ -12,10 +12,12 @@ import { Header } from "~/components/navbar/navbar";
 import { getUserInfo } from "~/lib/get-user-info";
 import { uploadMultipleOrSingleAction } from "~/lib/uploadMultipleOrSingleAction";
 import { User } from "~/lib/interface/user";
+import { useLocation } from "@builder.io/qwik-city";
 
 export default component$(() => {
-  useStylesScoped$(styless);
-
+  useStyles$(styless);
+  const loc = useLocation();
+  
   const userInfo = useSignal<User>({} as User);
   const isAuthenticated = useSignal(false);
   const strapiHost = useSignal(import.meta.env.PUBLIC_STRAPI_HOST || "");
@@ -28,6 +30,9 @@ export default component$(() => {
   const uploadError = useSignal<string | null>(null);
   const uploadSuccess = useSignal<string | null>(null);
 
+  // Estado para controlar la pestaña activa en la interfaz de perfil
+  const activeTab = useSignal("info");
+  
   useVisibleTask$(async () => {
     strapiHost.value = import.meta.env.PUBLIC_STRAPI_HOST || "";
 
@@ -42,15 +47,20 @@ export default component$(() => {
         userInfo.value = userData as User;
       }
     }
+    
+    const tabParam = loc.url.searchParams.get("tab");
+    if (tabParam) {
+      // Activar la pestaña correspondiente según el parámetro
+      if (["info", "history", "messages"].includes(tabParam)) {
+        activeTab.value = tabParam;
+      }
+    }
   });
 
-  // Estado para controlar la pestaña activa en la interfaz de perfil
-  const activeTab = useSignal("info");
-  const setActiveTab = $((tab: string) => {
+  const setActiveTab = $(async (tab: string) => {
     activeTab.value = tab;
   });
 
-  // Función que maneja el cierre de sesión eliminando tokens y redirigiendo al inicio
   const handleLogout = $(() => {
     localStorage.removeItem("jwt");
     sessionStorage.removeItem("jwt");
@@ -318,14 +328,6 @@ export default component$(() => {
               </li>
               <li class="nav-item">
                 <button
-                  class={`nav-link ${activeTab.value === "library" ? "active" : ""}`}
-                  onClick$={() => setActiveTab("library")}
-                >
-                  <span class="nav-text">Biblioteca</span>
-                </button>
-              </li>
-              <li class="nav-item">
-                <button
                   class={`nav-link ${activeTab.value === "history" ? "active" : ""}`}
                   onClick$={() => setActiveTab("history")}
                 >
@@ -523,15 +525,45 @@ export default component$(() => {
                 )}
               </div>
             )}
-            {activeTab.value === "library" && (
-              <div class="library-box">library</div>
-            )}
             {activeTab.value === "history" && (
-              <div class="history-box">history</div>
+              <div class="history-box">
+                {(userInfo.value?.history && Array.isArray(userInfo.value.history)) ? (
+                  userInfo.value.history
+                    .filter(historyItem => historyItem.createdAt)
+                    .map((item, idx) => (
+                      <div class="history-item" key={idx}>
+                        <div class="history-icon">📖</div>
+                        <div class="history-content">
+                          <h3>Capítulo {item.lastChapter}</h3>
+                          <p>Leído el {new Date(item.createdAt).toLocaleDateString('es-ES')}</p>
+                          <p>Libro: {item.bookTitle}</p>
+                        </div>
+                      </div>
+                    ))
+                ) : (
+                  <div class="empty-history">No hay historial reciente.</div>
+                )}
+              </div>
             )}
 
             {activeTab.value === "messages" && (
-              <div class="menssage-box">menssage</div>
+              <div class="menssage-box">
+                {(userInfo.value?.notifications && Array.isArray(userInfo.value.notifications)) ? (
+                  userInfo.value.notifications
+                    .filter(notif => notif.publishedAt !== null)
+                    .map((notif, idx) => (
+                      <div class="notification-box" key={idx}>
+                        <div class={`priority-indicator ${notif.priority}`}></div>
+                        <div class="notification-content">
+                          <h3 class="notification-title">{notif.title}</h3>
+                          <p class="notification-text">{notif.content}</p>
+                        </div>
+                      </div>
+                    ))
+                ) : (
+                  <div class="empty-notifications">No hay notificaciones.</div>
+                )}
+              </div>
             )}
           </div>
         </div>

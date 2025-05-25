@@ -1,10 +1,8 @@
 import { Chapter } from "./chapter"
 import { User } from "./user"
 import { Book } from "./book"
-
-export interface History {
-    id?: number
-    documentId: string
+import { Collection } from "./collection"
+export interface History extends Collection {
     lastChapter?: number
     users_permissions_user?: User
     chapter?: Chapter

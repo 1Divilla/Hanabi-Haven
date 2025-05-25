@@ -11,10 +11,6 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "isRead": {
-      "type": "boolean",
-      "default": false
-    },
     "priority": {
       "type": "enumeration",
       "enum": [

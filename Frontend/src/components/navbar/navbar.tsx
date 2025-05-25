@@ -1,6 +1,6 @@
 import {
   component$,
-  useStylesScoped$,
+  useStyles$,
   useTask$,
   useSignal,
   useVisibleTask$,
@@ -17,7 +17,7 @@ import { Navbar } from "~/lib/interface/navbar";
 import { User } from "~/lib/interface/user";
 
 export const Header = component$(() => {
-  useStylesScoped$(styless);
+  useStyles$(styless);
   const navbarInfo = useSignal<Navbar>({} as Navbar);
   const userInfo = useSignal<User>({} as User);
   const isAuthenticated = useSignal(false);
@@ -103,7 +103,7 @@ export const Header = component$(() => {
                   </li>
                 )}
                 <li class="nav-item">
-                  <a 
+                  <a
                     href="/profile" 
                     class="nav-link"
                   >
@@ -112,17 +112,8 @@ export const Header = component$(() => {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a 
-                    href="/profile?tab=library" 
-                    class="nav-link"
-                  >
-                    <BookSvg class="icon-svg" />
-                    <span>Biblioteca</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a 
-                    href="/profile?tab=messages" 
+                  <a
+                    href="/profile/?tab=messages" 
                     class="nav-link"
                   >
                     <MailSvg class="icon-svg" />
@@ -133,7 +124,7 @@ export const Header = component$(() => {
             </nav>
           ) : (
             <div class="login-container">
-              <a 
+              <a
                 href="/auth" 
                 class="login-button"
               >

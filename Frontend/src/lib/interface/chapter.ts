@@ -1,18 +1,12 @@
 import { Book } from "./book"
-import { CommentChapter } from "./commentChapter"
 import { StrapiImage } from "./image"
+import { Collection } from "./collection"
 
-export interface Chapter {
-    id?: number
-    documentId: string
+export interface Chapter extends Collection {
     title: string
     textContent?: string
     imageContent?: StrapiImage[]
     number: number
     book?: Book
     history?: History[]
-    comment_chapters?: CommentChapter[]
-    createdAt?: string
-    updatedAt?: string
-    publishedAt?: string
 }

@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:1337
-@token = 73b0e599f97d1afb0b9dce824629050c9636e00705fb846b879ca907b78f950d99374d80670cfeea091217622dacdace737c8ef83478a899ae920662b284ca47223a9f5d23c8eaca96e74f44f7fde34d990c347b12f7436b64159b42b7fc4900325c356770677233b4633ef9cc104d46075f1a920bd9e130a81b471ecf88c45f
+@token = a2aa06eefd386508fa91682b1c7f4e98bbefcf2c1172530e8869c3dac6f77d7e59524e3cbc0eaca58d5276d0cf965327b36e360752eb7b96e3371c6fc68e772311dcd822cd388e91ce863b649208af7ce4b285f5346142c029476fe4a022eafc5dd87a9e4ee933ba1a350607dc0e0f8116b562b1adfa96eb7ec63ccd4d114c61
 ### Obtener todos los libros
 GET {{baseUrl}}/api/books?populate=*
 Authorization: Bearer {{token}}
@@ -9,9 +9,15 @@ GET {{baseUrl}}/api/users/1?populate=*
 Authorization: Bearer {{token}}
 
 ### Crear un comentario de libro
-DELETE  {{baseUrl}}/api/books/fi1sj9ewz17kp9uomrm4f9v8
+PUT {{baseUrl}}/api/books/ohs6kpcjgvczvv4j8k4jii6e
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+{
+    "data": {
+        "totalViews": 5
+    }
+}
 
 ### Crear un nuevo libro
 POST {{baseUrl}}/api/books

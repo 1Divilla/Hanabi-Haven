@@ -6,7 +6,6 @@ export interface Notification {
     title: string
     content: string
     priority: 'low' | 'medium' | 'high'
-    isRead: boolean
     users_permissions_user?: User
     createdAt?: string
     updatedAt?: string

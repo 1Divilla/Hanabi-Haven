@@ -1,12 +1,8 @@
+import { Book } from "./interface/book";
 import { query } from "./strapi";
 import { isServer } from "@builder.io/qwik/build";
 
 export function getBookInfo(id?: number, populate: string = "*") {
-  if (isServer) {
-    console.log("Estamos en el servidor, no en el navegador");
-    return Promise.resolve([]);
-  }
-  
   let url = "books";
   
   if (id) {
@@ -31,7 +27,7 @@ export function getBookInfo(id?: number, populate: string = "*") {
 
 export function getBookByDocumentId(documentId: string, populate: string = "*") {
   if (!documentId) return Promise.resolve([]);
-  const url = `books?filters[documentId][$eq]=${documentId}&populate=${populate}`;
+  const url = `books/${documentId}?populate=${populate}`;
   return query(url)
     .then(res => {
       if (res && res.data) {
@@ -42,5 +38,17 @@ export function getBookByDocumentId(documentId: string, populate: string = "*") 
     .catch(error => {
       console.error("Error al obtener libro por documentId:", error);
       return [];
+    });
+}
+
+export function getBookByDocumentIdAndChapters(documentId: string, populate: string = "*") : Promise<Book | null> {
+  if (!documentId) return Promise.resolve(null);
+  const url = `books/${documentId}?${populate}`;
+  console.log(url);
+  return query(url)
+    .then(res => res?.data || null)
+    .catch(error => {
+      console.error("Error al obtener libro por documentId:", error);
+      return null;
     });
 }

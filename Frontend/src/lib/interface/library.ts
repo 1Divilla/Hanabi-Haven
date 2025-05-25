@@ -1,13 +1,8 @@
 import { Book } from "./book"
 import { User } from "./user"
-
-export interface Library {
-    id?: number
-    documentId: string
+import { Collection } from "./collection"
+export interface Library extends Collection {
     bookStatus: 'Completed' | 'Favourite' | 'Abandoned' | 'Reading' | 'Waiting'
     books?: Book[]
     users_permissions_user?: User
-    createdAt?: string
-    updatedAt?: string
-    publishedAt?: string
 }

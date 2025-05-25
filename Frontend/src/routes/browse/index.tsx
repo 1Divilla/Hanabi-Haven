@@ -1,10 +1,10 @@
-import { component$, useStylesScoped$ } from "@builder.io/qwik";
+import { component$, useStyles$ } from "@builder.io/qwik";
 import { Footer } from "~/components/footer/footer";
 import { Header } from "~/components/navbar/navbar";
 import styless from "~/styles/browse.css?inline";
 
 export default component$(() => {
-  useStylesScoped$(styless);
+  useStyles$(styless);
 
   return (
     <>
