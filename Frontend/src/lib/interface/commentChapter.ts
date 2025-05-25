@@ -4,6 +4,7 @@ import { User } from "./user"
 
 export interface CommentChapter {
     id?: number
+    documentId: string
     chapter?: Chapter // Relación con el libro al que pertenece
     content: string // Contenido del comentario
     isApproved: boolean // Corregido de "isAproved" a "isApproved"

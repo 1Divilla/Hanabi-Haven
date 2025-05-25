@@ -16,19 +16,17 @@
       "required": true
     },
     "description": {
-      "type": "text",
-      "required": true
+      "type": "text"
     },
     "type": {
       "type": "enumeration",
       "enum": [
         "novel",
-        "manga",
         "manhwa",
         "manhua",
+        "manga",
         "comic"
-      ],
-      "required": true
+      ]
     },
     "bookStatus": {
       "type": "enumeration",
@@ -63,8 +61,7 @@
         "ZH",
         "JA",
         "KO"
-      ],
-      "required": true
+      ]
     },
     "coverImage": {
       "type": "media",
@@ -74,10 +71,14 @@
         "images"
       ]
     },
+    "author": {
+      "type": "string"
+    },
     "chapters": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::chapter.chapter"
+      "target": "api::chapter.chapter",
+      "mappedBy": "book"
     },
     "comment_books": {
       "type": "relation",
@@ -91,20 +92,23 @@
       "target": "api::genre.genre",
       "mappedBy": "books"
     },
-    "author": {
-      "type": "string"
-    },
-    "library": {
+    "libraries": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::library.library",
-      "inversedBy": "books"
+      "mappedBy": "books"
     },
     "histories": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::history.history",
-      "mappedBy": "book"
+      "mappedBy": "books"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "books"
     }
   }
 }

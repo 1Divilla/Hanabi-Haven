@@ -130,7 +130,7 @@ export default component$(() => {
       // Usar la función adaptada para subir la imagen
       const result = await uploadMultipleOrSingleAction(
         formData,
-        `user_${userInfo.value.id.toString()}`
+        `avatar_${userInfo.value.id.toString()}`
       );
 
       if (result.uploadError) {

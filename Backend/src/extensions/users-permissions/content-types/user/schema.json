@@ -65,29 +65,33 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "avatar": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
-    "comment_book": {
+    "books": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
+      "target": "api::book.book",
+      "mappedBy": "users_permissions_user"
+    },
+    "chapters": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chapter.chapter",
+      "mappedBy": "users_permissions_user"
+    },
+    "comment_books": {
+      "type": "relation",
+      "relation": "oneToMany",
       "target": "api::comment-book.comment-book",
       "mappedBy": "users_permissions_user"
     },
-    "comment_chapter": {
+    "comment_chapters": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::comment-chapter.comment-chapter",
       "mappedBy": "users_permissions_user"
     },
-    "comment_reply": {
+    "comment_replies": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::comment-reply.comment-reply",
       "mappedBy": "users_permissions_user"
     },
@@ -97,17 +101,25 @@
       "target": "api::history.history",
       "mappedBy": "users_permissions_user"
     },
+    "libraries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::library.library",
+      "mappedBy": "users_permissions_user"
+    },
     "notifications": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::notification.notification",
       "mappedBy": "users_permissions_user"
     },
-    "libraries": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::library.library",
-      "mappedBy": "users_permissions_user"
+    "avatar": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": false
     }
   }
 }

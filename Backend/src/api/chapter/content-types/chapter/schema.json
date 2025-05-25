@@ -12,12 +12,10 @@
   },
   "attributes": {
     "title": {
-      "type": "string",
-      "required": false
+      "type": "string"
     },
     "textContent": {
-      "type": "richtext",
-      "required": false
+      "type": "richtext"
     },
     "imageContent": {
       "type": "media",
@@ -28,8 +26,13 @@
       ]
     },
     "number": {
-      "type": "decimal",
-      "required": true
+      "type": "decimal"
+    },
+    "book": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::book.book",
+      "inversedBy": "chapters"
     },
     "comment_chapters": {
       "type": "relation",
@@ -39,9 +42,15 @@
     },
     "histories": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::history.history",
-      "mappedBy": "chapter"
+      "mappedBy": "chapters"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "chapters"
     }
   }
 }

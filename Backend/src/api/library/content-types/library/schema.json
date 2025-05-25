@@ -14,18 +14,18 @@
     "bookStatus": {
       "type": "enumeration",
       "enum": [
-        "Completed",
-        "Favourite",
-        "Abandoned",
-        "Reading",
-        "Waiting"
+        "completed",
+        "favourite",
+        "abandoned",
+        "reading",
+        "planning"
       ]
     },
     "books": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::book.book",
-      "mappedBy": "library"
+      "inversedBy": "libraries"
     },
     "users_permissions_user": {
       "type": "relation",

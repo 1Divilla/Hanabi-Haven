@@ -1,0 +1,32 @@
+@baseUrl = http://localhost:1337
+@token = 73b0e599f97d1afb0b9dce824629050c9636e00705fb846b879ca907b78f950d99374d80670cfeea091217622dacdace737c8ef83478a899ae920662b284ca47223a9f5d23c8eaca96e74f44f7fde34d990c347b12f7436b64159b42b7fc4900325c356770677233b4633ef9cc104d46075f1a920bd9e130a81b471ecf88c45f
+### Obtener todos los libros
+GET {{baseUrl}}/api/books?populate=*
+Authorization: Bearer {{token}}
+
+###
+GET {{baseUrl}}/api/users/1?populate=*
+Authorization: Bearer {{token}}
+
+### Crear un comentario de libro
+DELETE  {{baseUrl}}/api/books/fi1sj9ewz17kp9uomrm4f9v8
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Crear un nuevo libro
+POST {{baseUrl}}/api/books
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "data": {
+        "title": "example title",
+        "author": "example author",
+        "description": "example description",
+        "bookStatus": "ongoing",
+        "language": "ES",
+        "type": "manhwa",
+        "users_permissions_user": "wpbjm5x4m2xlbs1exk0u2w6t",
+        "coverImage": 13
+    }
+}

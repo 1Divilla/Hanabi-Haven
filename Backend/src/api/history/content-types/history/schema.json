@@ -4,32 +4,33 @@
   "info": {
     "singularName": "history",
     "pluralName": "histories",
-    "displayName": "History"
+    "displayName": "History",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
-    "lastChapter": {
+    "lasChapter": {
       "type": "decimal",
-      "required": false
+      "required": true
+    },
+    "books": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::book.book",
+      "inversedBy": "histories"
+    },
+    "chapters": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::chapter.chapter",
+      "inversedBy": "histories"
     },
     "users_permissions_user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "histories"
-    },
-    "chapter": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::chapter.chapter",
-      "inversedBy": "histories"
-    },
-    "book": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::book.book",
       "inversedBy": "histories"
     }
   }

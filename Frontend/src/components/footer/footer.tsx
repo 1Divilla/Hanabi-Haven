@@ -24,12 +24,12 @@ export const Footer = component$(() => {
           <div class="bottom-hub">
               <ul class="bottom-row">
                   <li class="bottom-item">
-                      <a href="" class="bottom-link">
+                      <a href="/terms" class="bottom-link">
                           <span>Term & Conditions</span>
                       </a>
                   </li>
                   <li class="bottom-item">
-                      <a href="" class="bottom-link">
+                      <a href="/about-us" class="bottom-link">
                           <span>About us</span>
                       </a>
                   </li>

@@ -4,17 +4,20 @@
   "info": {
     "singularName": "genre",
     "pluralName": "genres",
-    "displayName": "Genre"
+    "displayName": "Genre",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "description": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "books": {
       "type": "relation",

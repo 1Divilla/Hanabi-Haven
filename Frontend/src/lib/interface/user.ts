@@ -5,6 +5,7 @@ import { CommentReply } from "./commentReply"
 
 export interface User {
     id: number
+    documentId: string
     username: string
     email: string
     provider: string

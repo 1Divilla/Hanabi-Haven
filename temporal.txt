@@ -1,0 +1,298 @@
+import { $ } from "@builder.io/qwik";
+
+export const uploadMultipleOrSingleAction = $(async (formData: FormData, fileName?: string) => {
+  try {
+    const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_HOST || "";
+    const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
+    
+    if (!token) {
+      console.warn("No se encontró token de autenticación");
+      return {
+        uploadError: "No estás autenticado",
+        uploadSuccess: null,
+      };
+    }
+
+    // Si se proporciona un nombre de archivo, renombrar el archivo antes de subirlo
+    if (fileName && formData.has('files')) {
+      console.log("Procesando archivo con nombre personalizado:", fileName);
+      const files = formData.getAll('files');
+      console.log("Número de archivos a procesar:", files.length);
+
+      formData.delete('files');
+      
+      files.forEach((file: any, index) => {
+        const fileExtension = file.name.split('.').pop();
+        const newFileName = files.length > 1 
+          ? `${fileName}_${index + 1}.${fileExtension}`
+          : `${fileName}.${fileExtension}`;
+        
+        console.log(`Renombrando archivo ${index + 1}:`, {
+          nombreOriginal: file.name,
+          nuevoNombre: newFileName,
+          tipo: file.type,
+          tamaño: file.size
+        });
+
+        const renamedFile = new File(
+          [file], 
+          newFileName,
+          { type: file.type }
+        );
+        formData.append('files', renamedFile);
+      });
+    }
+    
+    const response = await fetch(`${STRAPI_URL}/api/upload`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const result = await response.json();
+    console.log("Respuesta de Strapi recibida:", {
+      status: response.status,
+      ok: response.ok,
+      tieneError: !!result.error
+    });
+
+    if (!response.ok || result.error) {
+      console.error("Error en la subida de archivos:", {
+        status: response.status,
+        error: result.error
+      });
+      return {
+        uploadError: result.error?.message || `Error ${response.status}`,
+        uploadSuccess: null,
+        data: null,
+      };
+    }
+
+    console.log("Subida completada exitosamente:", {
+      archivosSubidos: Array.isArray(result) ? result.length : 1
+    });
+    return {
+      uploadError: null,
+      data: result,
+    };
+  } catch (error: any) {
+    console.error("Error inesperado en uploadMultipleOrSingleAction:", error);
+    return {
+      uploadError: error.message,
+      uploadSuccess: null,
+      data: null,
+    };
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+import { $ } from "@builder.io/qwik";
+
+export interface UploadResult {
+  uploadError: string | null;
+  uploadSuccess?: string | null;
+  data: any[] | null;
+}
+
+export const uploadMultipleOrSingleAction = $(async (formData: FormData, fileName?: string): Promise<UploadResult> => {
+  try {
+    const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_HOST || "";
+    const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
+    
+    if (!token) {
+      console.warn("No se encontró token de autenticación");
+      return {
+        uploadError: "No estás autenticado",
+        uploadSuccess: null,
+        data: null,
+      };
+    }
+
+    // Si se proporciona un nombre de archivo, renombrar el archivo antes de subirlo
+    let allFiles: File[] = [];
+    if (fileName && formData.has('files')) {
+      console.log("Procesando archivo con nombre personalizado:", fileName);
+      const files = formData.getAll('files');
+      console.log("Número de archivos a procesar:", files.length);
+
+      formData.delete('files');
+      
+      // Almacenar los archivos renombrados para procesarlos uno por uno
+      files.forEach((file: any, index) => {
+        if (!(file instanceof File)) {
+          console.warn("El elemento no es un archivo válido:", file);
+          return;
+        }
+        
+        const fileExtension = file.name.split('.').pop() || '';
+        const newFileName = files.length > 1 
+          ? `${fileName}_${index + 1}.${fileExtension}`
+          : `${fileName}.${fileExtension}`;
+        
+        console.log(`Renombrando archivo ${index + 1}:`, {
+          nombreOriginal: file.name,
+          nuevoNombre: newFileName,
+          tipo: file.type,
+          tamaño: file.size
+        });
+
+        try {
+          const renamedFile = new File(
+            [file], 
+            newFileName,
+            { type: file.type }
+          );
+          allFiles.push(renamedFile);
+        } catch (error) {
+          console.error(`Error al renombrar el archivo ${file.name}:`, error);
+        }
+      });
+    } else {
+      // Si no hay renombrado, simplemente obtener todos los archivos
+      const filesFromForm = formData.getAll('files');
+      allFiles = filesFromForm.filter(file => file instanceof File) as File[];
+    }
+    
+    if (allFiles.length === 0) {
+      console.error("No se encontraron archivos válidos para subir");
+      return {
+        uploadError: "No se encontraron archivos válidos para subir",
+        uploadSuccess: null,
+        data: null,
+      };
+    }
+    
+    console.log(`Procesando ${allFiles.length} archivos uno por uno`);
+    
+    // Procesar cada archivo individualmente
+    let allResults: any[] = [];
+    let hasErrors = false;
+    let errorMessages: string[] = [];
+    
+    for (let i = 0; i < allFiles.length; i++) {
+      const singleFileFormData = new FormData();
+      singleFileFormData.append('files', allFiles[i]);
+      
+      console.log(`Procesando archivo ${i+1}/${allFiles.length}: ${allFiles[i].name}`);
+      
+      // Implementar reintentos para cada archivo
+      const MAX_RETRIES = 3;
+      let retryCount = 0;
+      let success = false;
+      
+      while (retryCount <= MAX_RETRIES && !success) {
+        try {
+          if (i > 0 || retryCount > 0) {
+            console.log(`Esperando 3 segundo antes de procesar el archivo ${i+1}${retryCount > 0 ? ` (reintento ${retryCount})` : ''}...`);
+            await new Promise(resolve => setTimeout(resolve, 3000));
+          }
+          
+          const response = await fetch(`${STRAPI_URL}/api/upload`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: singleFileFormData,
+          });
+
+          let result;
+          try {
+            result = await response.json();
+          } catch (jsonError) {
+            console.error(`Error al parsear JSON para archivo ${i+1}:`, jsonError);
+            throw new Error(`Error al procesar respuesta del archivo ${i+1}`);
+          }
+          
+          console.log(`Respuesta del archivo ${i+1}:`, {
+            status: response.status,
+            ok: response.ok,
+            tieneError: !!result.error
+          });
+
+          if (!response.ok || result.error) {
+            console.error(`Error en la subida del archivo ${i+1}:`, {
+              status: response.status,
+              error: result.error
+            });
+            
+            throw new Error(result.error?.message || `Error ${response.status} en archivo ${i+1}`);
+          }
+          
+          // Añadir los resultados de este archivo al array de todos los resultados
+          if (Array.isArray(result)) {
+            allResults = [...allResults, ...result];
+          } else if (result) {
+            allResults.push(result);
+          }
+          
+          success = true; // Marcar como exitoso para salir del bucle de reintentos
+          
+        } catch (error: any) {
+          console.error(`Error al procesar el archivo ${i+1} (intento ${retryCount + 1}/${MAX_RETRIES + 1}):`, error);
+          retryCount++;
+          
+          if (retryCount > MAX_RETRIES) {
+            hasErrors = true;
+            errorMessages.push(error.message || `Error desconocido en archivo ${i+1}`);
+            console.warn(`Agotados los reintentos para el archivo ${i+1}, continuando con el siguiente...`);
+          }
+        }
+      }
+    }
+
+    // Si no tenemos resultados, devolvemos error
+    if (allResults.length === 0) {
+      return {
+        uploadError: errorMessages.length > 0 
+          ? `Errores: ${errorMessages.join(', ')}` 
+          : "No se pudo completar la subida de archivos",
+        uploadSuccess: null,
+        data: null,
+      };
+    }
+
+    // Si tenemos algunos resultados pero también errores, informamos de ambos
+    if (hasErrors) {
+      console.log("Subida parcial completada con errores:", {
+        archivosSubidos: allResults.length,
+        errores: errorMessages
+      });
+      
+      return {
+        uploadError: `Se subieron ${allResults.length} de ${allFiles.length} archivos. Errores: ${errorMessages.join(', ')}`,
+        uploadSuccess: `Se subieron ${allResults.length} archivos correctamente`,
+        data: allResults,
+      };
+    }
+
+    // Todo correcto
+    console.log("Subida completada exitosamente:", {
+      archivosSubidos: allResults.length
+    });
+    
+    return {
+      uploadError: null,
+      uploadSuccess: `Se subieron ${allResults.length} archivos correctamente`,
+      data: allResults,
+    };
+  } catch (error: any) {
+    console.error("Error inesperado en uploadMultipleOrSingleAction:", error);
+    return {
+      uploadError: error.message || "Error desconocido",
+      uploadSuccess: null,
+      data: null,
+    };
+  }
+});

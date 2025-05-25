@@ -4,13 +4,14 @@ import { StrapiImage } from "./image"
 
 export interface Chapter {
     id?: number
+    documentId: string
     title: string
-    textContent?: string // Contenido en formato markdown
-    imageContent?: StrapiImage[] // Array de imágenes para capítulos tipo manga
+    textContent?: string
+    imageContent?: StrapiImage[]
     number: number
-    book?: Book // Relación con el libro al que pertenece
-    history?: History[] // Relación con historial de lectura
-    comment_chapters?: CommentChapter[] // Relación con comentarios
+    book?: Book
+    history?: History[]
+    comment_chapters?: CommentChapter[]
     createdAt?: string
     updatedAt?: string
     publishedAt?: string

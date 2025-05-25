@@ -1,4 +1,6 @@
-/* ===== CONTENEDOR PRINCIPAL DEL DASHBOARD ===== */
+/* Variables globales definidas en otro archivo */
+
+/* ===== LAYOUT PRINCIPAL ===== */
 .dashboard-container {
     display: flex;
     flex-direction: column;
@@ -7,18 +9,35 @@
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
-/* ===== BARRA LATERAL DEL DASHBOARD ===== */
+header,
+footer {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header>div,
+footer>div {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+/* ===== BARRA LATERAL Y NAVEGACIÓN ===== */
 .dashboard-sidebar {
     background-color: var(--layout-color);
     border-radius: 5px;
     width: 100%;
     padding: 10px;
-    margin: 20px;
+    margin: 10px;
+    box-sizing: border-box;
 }
 
-/* ===== TARJETA DE USUARIO ===== */
 .user-card {
     display: flex;
     flex-direction: row;
@@ -47,7 +66,6 @@
     border-left: 4px solid var(--highlight);
 }
 
-/* ===== NAVEGACIÓN DEL PERFIL ===== */
 .dashboard-nav {
     border-top: 2px solid var(--primary);
     display: flex;
@@ -87,6 +105,838 @@
     border-radius: 5px;
     width: 100%;
     padding: 10px;
-    margin: 10px;
+    margin: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
+/* ===== SECCIÓN: MIS OBRAS ===== */
+.my-works-box {
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.book-card {
+    background-color: var(--second-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.book-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 2px solid var(--primary);
+}
+
+.book-info {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-info h3 {
+    color: var(--text);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.book-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: auto;
+}
+
+.book-meta span {
+    color: var(--terciary);
+    font-size: 0.9rem;
+    display: block;
+}
+
+/* ===== VISTAS DE CAPÍTULOS ===== */
+.text-chapter-view,
+.image-chapter-view {
+    padding: 20px;
+}
+
+.btn-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.back-button {
+    background-color: var(--logout-button);
+    color: var(--text);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.back-button:hover {
+    background-color: var(--logout-hover);
+}
+
+.section-title {
+    color: var(--text);
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary);
+}
+
+.chapter-list {
+    margin-top: 20px;
+    background-color: var(--second-bg);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+/* ===== SECCIÓN: NUEVA OBRA ===== */
+.new-works-box {
+    padding: 20px;
+}
+
+.new-works-box h2 {
+    color: var(--text);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary);
+}
+
+.new-work-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-section {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.image-section {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.image-section label {
+    color: var(--text);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.image-section input[type="file"] {
+    display: none;
+}
+
+.image-preview-clickable {
+    width: 200px;
+    height: 280px;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.image-preview-clickable:hover {
+    border-color: var(--highlight);
+    transform: scale(1.03);
+}
+
+.image-preview-clickable img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-preview-clickable:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-overlay span {
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.data-section {
+    flex-grow: 1;
+}
+
+.data-section ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.data-section li {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.data-section label {
+    color: var(--terciary);
+    font-size: 1.1rem;
+}
+
+/* ===== VENTANA MODAL ===== */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}
+
+.chapter-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.chapter-modal.show {
+    display: flex;
+}
+
+.modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(145deg, var(--layout-color), var(--background));
+    border-radius: 20px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 580px;
+    z-index: 1000;
+    padding: 2.5rem;
+    border: 2px solid var(--primary);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--primary);
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.75rem 2.5rem;
+    margin: -2.5rem -2.5rem 2.5rem;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    border-radius: 20px 20px 0 0;
+}
+
+.modal-header h3 {
+    color: var(--text);
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.close-button {
+    position: absolute;
+    top: 1.75rem;
+    right: 1.75rem;
+    background: rgba(255, 255, 255, 0.12);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.close-button:hover {
+    transform: rotate(180deg) scale(1.1);
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--highlight);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.chapter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    background-color: var(--second-bg);
+    color: var(--text);
+    padding: 1rem 1.5rem;
+    transition: all 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--highlight);
+    box-shadow: 0 0 0 4px rgba(255, 159, 104, 0.1);
+}
+
+.upload-preview {
+    margin-top: 10px;
+    padding: 15px;
+    border: 2px dashed var(--primary);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.help-text {
+    font-size: 0.8rem;
+    color: var(--terciary);
+    margin-top: 5px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    min-width: 150px;
+    width: 150px;
+    height: 45px;
+    padding: 0 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-submit,
+.btn-cancel {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit {
+    background-color: var(--success-button);
+    color: var(--text);
+    border: none;
+}
+
+.btn-submit:hover {
+    background-color: var(--success-hover);
+    transform: translateY(-2px);
+}
+
+.btn-cancel {
+    background-color: var(--logout-button);
+    color: var(--text);
+    border: none;
+}
+
+.btn-cancel:hover {
+    background-color: var(--logout-hover);
+    transform: translateY(-2px);
+}
+
+.btn-reset {
+    background-color: var(--logout-button);
+    color: var(--text);
+    border: none;
+}
+
+.btn-reset:hover {
+    background-color: var(--logout-hover);
+    transform: translateY(-2px);
+}
+
+/* ===== CAPÍTULOS ===== */
+.chapter-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+}
+
+.add-chapter-button {
+    background-color: var(--success-button);
+    color: var(--text);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.add-chapter-button:hover {
+    background-color: var(--success-hover);
+}
+
+/* ===== SECCIÓN DE CAPÍTULOS - ESTILOS ACTUALIZADOS ==== */
+.chapter-list {
+    background-color: var(--layout-color);
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 20px;
+}
+
+.data-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.data-item {
+    background-color: var(--second-bg);
+    border-radius: 8px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.data-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.data-label {
+    color: var(--terciary);
+    min-width: 120px;
+    font-weight: 500;
+}
+
+.data-value {
+    flex-grow: 1;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.chapter-meta span {
+    font-size: 0.9rem;
+    color: var(--text2);
+}
+
+.chapter-actions {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.edit-button,
+.view-button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.no-chapters {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--terciary);
+}
+
+.no-chapters p:first-child {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+/* ===== ZONA DE ARRASTRE ===== */
+.drop-zone {
+    border: 2px dashed var(--terciary);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--second-bg);
+    cursor: pointer;
+}
+
+.drop-zone.active {
+    border-color: var(--highlight);
+    background-color: var(--layout-color);
+}
+
+.drop-zone .file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.upload-instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text2);
+}
+
+.upload-instructions svg {
+    margin-bottom: 10px;
+    color: var(--terciary);
+}
+
+.browse-text {
+    color: var(--highlight);
+    font-weight: bold;
+}
+
+.image-previews {
+    margin-top: 20px;
+}
+
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.preview-item {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-number {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--layout-color);
+    color: var(--text);
+    padding: 2px 6px;
+    font-size: 12px;
+    border-top-left-radius: 4px;
+}
+
+/* ===== AJUSTES PARA TEXTOS ===== */
+.data-section textarea {
+    min-height: 150px;
+    resize: vertical;
+    width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+}
+
+.book-description {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    max-height: none;
+    overflow: visible;
+}
+
+.full-text {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    max-height: none;
+    overflow: visible;
+}
+
+.drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    cursor: pointer;
+  }
+  
+  .drop-zone.drag-over {
+    border-color: #007bff;
+    background: #e8f0fe;
+  }
+  
+  .drop-zone input[type="file"] {
+    display: none;
+  }
+  
+  .upload-preview {
+    margin-top: 15px;
+  }
+  
+  .upload-preview i {
+    font-size: 48px;
+    color: #6c757d;
+    margin-bottom: 10px;
+  }
+  
+  .help-text.important {
+    margin-top: 15px;
+    padding: 10px;
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 4px;
+    color: #856404;
+  }
+  
+  .help-text code {
+    background: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #d63384;
+  }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .books-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .info-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image-section {
+        margin-bottom: 20px;
+    }
+
+    .data-section {
+        width: 100%;
+    }
+
+    .chapters-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* ===== MENSAJE DE NO HAY OBRAS ===== */
+.no-books-message {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--second-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.no-books-message h3 {
+    color: var(--text);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.no-books-message p {
+    color: var(--terciary);
+    font-size: 1.1rem;
+    max-width: 400px;
+    line-height: 1.5;
+}
+
+/* ===== ESTILOS PARA LA GRID DE CAPÍTULOS ===== */
+.chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.chapter-card {
+    background-color: var(--second-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chapter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    border-color: var(--highlight);
+}
+
+.chapter-info {
+    padding: 16px;
+}
+
+.chapter-info h3 {
+    color: var(--text);
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.chapter-info p {
+    color: var(--text2);
+    font-size: 1rem;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.chapter-meta span {
+    font-size: 0.9rem;
+    color: var(--terciary);
+}
+
+.chapter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.chapter-actions .delete-button {
+    background-color: var(--advise-button);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.chapter-actions .delete-button:hover {
+    background-color: var(--advise-button-hover);
+}
+
+/* Responsive para la grid de capítulos */
+@media (max-width: 768px) {
+    .chapters-grid {
+        grid-template-columns: 1fr;
+    }
+}

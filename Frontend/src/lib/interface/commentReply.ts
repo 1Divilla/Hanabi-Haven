@@ -4,6 +4,7 @@ import { CommentChapter } from "./commentChapter"
 
 export interface CommentReply {
     id?: number
+    documentId: string
     content: string
     isApproved: boolean
     users_permissions_user?: User

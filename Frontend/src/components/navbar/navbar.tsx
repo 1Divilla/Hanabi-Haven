@@ -11,7 +11,6 @@ import BrowseSvg from "~/media/icons/browse-svg.svg?jsx";
 import MailSvg from "~/media/icons/mail-svg.svg?jsx";
 import UserSvg from "~/media/icons/user-svg.svg?jsx";
 import DashboardSvg from "~/media/icons/dashboard-svg.svg?jsx";
-import RankingSvg from "~/media/icons/ranking-svg.svg?jsx";
 import { getNavbarInfo } from "~/lib/get-navbar-info";
 import { getUserInfo } from "~/lib/get-user-info";
 import { Navbar } from "~/lib/interface/navbar";
@@ -25,18 +24,27 @@ export const Header = component$(() => {
   const isPublisher = useSignal(false);
 
   useTask$(async () => {
-    navbarInfo.value = (await getNavbarInfo()) as Navbar;
+    try {
+      navbarInfo.value = (await getNavbarInfo()) as Navbar;
+    } catch (error) {
+      console.error("Error al obtener información de navbar:", error);
+    }
   });
+  
   useVisibleTask$(async () => {
     const token = localStorage.getItem("jwt") || sessionStorage.getItem("jwt");
 
     isAuthenticated.value = !!token;
 
     if (token) {
-      const userData = await getUserInfo();
-      if (userData) {
-        userInfo.value = userData as User;
-        isPublisher.value = userData.role?.type === "publisher";
+      try {
+        const userData = await getUserInfo();
+        if (userData) {
+          userInfo.value = userData as User;
+          isPublisher.value = userData.role?.type === "publisher";
+        }
+      } catch (error) {
+        console.error("Error al obtener información del usuario:", error);
       }
     }
   });
@@ -62,29 +70,15 @@ export const Header = component$(() => {
             <span class="nav-hub-slog">{navbarInfo.value.wellcomeMessage}</span>
             <ul class="navbar-menu">
               <li class="nav-item">
+                <a href="/" class="nav-link" title="home">
+                  <BookSvg class="icon-svg" />
+                  <span>Home</span>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="/browse" class="nav-link" title="Explore our Content">
                   <BrowseSvg class="icon-svg" />
                   <span>Browse</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="/updates"
-                  class="nav-link"
-                  title="Explore the New Recent Content"
-                >
-                  <BookSvg class="icon-svg" />
-                  <span>Updates</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="/ranking"
-                  class="nav-link"
-                  title="View the Most Popular Content"
-                >
-                  <RankingSvg class="icon-svg" />
-                  <span>Ranking</span>
                 </a>
               </li>
             </ul>
@@ -93,7 +87,7 @@ export const Header = component$(() => {
           {isAuthenticated.value ? (
             <nav class="navbar-user">
               <span class="nav-user-slog">
-                Bienvenido {userInfo.value?.username}
+                Bienvenido {userInfo.value?.username || "Usuario"}
               </span>
               <ul class="navbar-auth">
                 {isPublisher.value && (
@@ -109,19 +103,28 @@ export const Header = component$(() => {
                   </li>
                 )}
                 <li class="nav-item">
-                  <a href="/profile" class="nav-link">
+                  <a 
+                    href="/profile" 
+                    class="nav-link"
+                  >
                     <UserSvg class="icon-svg" />
                     <span>Perfil</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/profile?tab=library" class="nav-link">
+                  <a 
+                    href="/profile?tab=library" 
+                    class="nav-link"
+                  >
                     <BookSvg class="icon-svg" />
                     <span>Biblioteca</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/profile?tab=messages" class="nav-link">
+                  <a 
+                    href="/profile?tab=messages" 
+                    class="nav-link"
+                  >
                     <MailSvg class="icon-svg" />
                     <span></span>
                   </a>
@@ -130,7 +133,10 @@ export const Header = component$(() => {
             </nav>
           ) : (
             <div class="login-container">
-              <a href="/auth" class="login-button">
+              <a 
+                href="/auth" 
+                class="login-button"
+              >
                 <UserSvg class="icon-svg" />
                 <span>Login</span>
               </a>

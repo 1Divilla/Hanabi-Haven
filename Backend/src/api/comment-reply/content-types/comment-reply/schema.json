@@ -15,13 +15,14 @@
       "type": "text"
     },
     "isApproved": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
-    "users_permissions_user": {
+    "comment_book": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "comment_reply"
+      "relation": "manyToOne",
+      "target": "api::comment-book.comment-book",
+      "inversedBy": "comment_replies"
     },
     "comment_chapter": {
       "type": "relation",
@@ -29,10 +30,10 @@
       "target": "api::comment-chapter.comment-chapter",
       "inversedBy": "comment_replies"
     },
-    "comment_book": {
+    "users_permissions_user": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::comment-book.comment-book",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "comment_replies"
     }
   }

@@ -11,30 +11,30 @@
     "draftAndPublish": true
   },
   "attributes": {
+    "content": {
+      "type": "text"
+    },
+    "isApproved": {
+      "type": "boolean",
+      "default": true
+    },
     "book": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::book.book",
       "inversedBy": "comment_books"
     },
-    "content": {
-      "type": "text"
-    },
-    "isApproved": {
-      "type": "boolean",
-      "default": false,
-      "required": false
-    },
-    "users_permissions_user": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "comment_book"
-    },
     "comment_replies": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::comment-reply.comment-reply"
+      "target": "api::comment-reply.comment-reply",
+      "mappedBy": "comment_book"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "comment_books"
     }
   }
 }

@@ -4,26 +4,23 @@
   "info": {
     "singularName": "navbar",
     "pluralName": "navbars",
-    "displayName": "Navbar",
-    "description": ""
+    "displayName": "Navbar"
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
     "logotype": {
-      "type": "media",
-      "multiple": false,
-      "required": true,
       "allowedTypes": [
         "images"
-      ]
+      ],
+      "type": "media",
+      "multiple": false
     },
     "wellcomeMessage": {
       "type": "string",
       "maxLength": 42,
-      "required": true,
-      "default": "Your Haven for the Best Stories"
+      "required": false
     }
   }
 }

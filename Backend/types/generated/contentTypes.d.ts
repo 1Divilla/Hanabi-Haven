@@ -34,6 +34,10 @@ export interface AdminApiToken extends Struct.CollectionTypeSchema {
         minLength: 1;
       }> &
       Schema.Attribute.DefaultTo<''>;
+    encryptedKey: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
     expiresAt: Schema.Attribute.DateTime;
     lastUsedAt: Schema.Attribute.DateTime;
     lifespan: Schema.Attribute.BigInteger;
@@ -395,15 +399,14 @@ export interface ApiBookBook extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
     featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     genres: Schema.Attribute.Relation<'manyToMany', 'api::genre.genre'>;
-    histories: Schema.Attribute.Relation<'oneToMany', 'api::history.history'>;
+    histories: Schema.Attribute.Relation<'manyToMany', 'api::history.history'>;
     language: Schema.Attribute.Enumeration<
       ['ES', 'EN', 'FR', 'DE', 'IT', 'PT', 'RU', 'ZH', 'JA', 'KO']
-    > &
-      Schema.Attribute.Required;
-    library: Schema.Attribute.Relation<'manyToOne', 'api::library.library'>;
+    >;
+    libraries: Schema.Attribute.Relation<'manyToMany', 'api::library.library'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::book.book'> &
       Schema.Attribute.Private;
@@ -411,12 +414,15 @@ export interface ApiBookBook extends Struct.CollectionTypeSchema {
     title: Schema.Attribute.String & Schema.Attribute.Required;
     totalViews: Schema.Attribute.Integer;
     type: Schema.Attribute.Enumeration<
-      ['novel', 'manga', 'manhwa', 'manhua', 'comic']
-    > &
-      Schema.Attribute.Required;
+      ['novel', 'manhwa', 'manhua', 'manga', 'comic']
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     weeklyViews: Schema.Attribute.Integer;
   };
 }
@@ -433,6 +439,7 @@ export interface ApiChapterChapter extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    book: Schema.Attribute.Relation<'manyToOne', 'api::book.book'>;
     comment_chapters: Schema.Attribute.Relation<
       'oneToMany',
       'api::comment-chapter.comment-chapter'
@@ -440,7 +447,7 @@ export interface ApiChapterChapter extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    histories: Schema.Attribute.Relation<'oneToMany', 'api::history.history'>;
+    histories: Schema.Attribute.Relation<'manyToMany', 'api::history.history'>;
     imageContent: Schema.Attribute.Media<'images', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -448,13 +455,17 @@ export interface ApiChapterChapter extends Struct.CollectionTypeSchema {
       'api::chapter.chapter'
     > &
       Schema.Attribute.Private;
-    number: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    number: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
     textContent: Schema.Attribute.RichText;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -479,7 +490,7 @@ export interface ApiCommentBookCommentBook extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isApproved: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    isApproved: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -491,7 +502,7 @@ export interface ApiCommentBookCommentBook extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     users_permissions_user: Schema.Attribute.Relation<
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
   };
@@ -515,11 +526,11 @@ export interface ApiCommentChapterCommentChapter
       'oneToMany',
       'api::comment-reply.comment-reply'
     >;
-    content: Schema.Attribute.Text;
+    content: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isApproved: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    isApproved: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -531,7 +542,7 @@ export interface ApiCommentChapterCommentChapter
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     users_permissions_user: Schema.Attribute.Relation<
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
   };
@@ -562,7 +573,7 @@ export interface ApiCommentReplyCommentReply
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isApproved: Schema.Attribute.Boolean;
+    isApproved: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -574,7 +585,7 @@ export interface ApiCommentReplyCommentReply
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     users_permissions_user: Schema.Attribute.Relation<
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
   };
@@ -583,6 +594,7 @@ export interface ApiCommentReplyCommentReply
 export interface ApiGenreGenre extends Struct.CollectionTypeSchema {
   collectionName: 'genres';
   info: {
+    description: '';
     displayName: 'Genre';
     pluralName: 'genres';
     singularName: 'genre';
@@ -595,11 +607,11 @@ export interface ApiGenreGenre extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::genre.genre'> &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -610,6 +622,7 @@ export interface ApiGenreGenre extends Struct.CollectionTypeSchema {
 export interface ApiHistoryHistory extends Struct.CollectionTypeSchema {
   collectionName: 'histories';
   info: {
+    description: '';
     displayName: 'History';
     pluralName: 'histories';
     singularName: 'history';
@@ -618,12 +631,12 @@ export interface ApiHistoryHistory extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    book: Schema.Attribute.Relation<'manyToOne', 'api::book.book'>;
-    chapter: Schema.Attribute.Relation<'manyToOne', 'api::chapter.chapter'>;
+    books: Schema.Attribute.Relation<'manyToMany', 'api::book.book'>;
+    chapters: Schema.Attribute.Relation<'manyToMany', 'api::chapter.chapter'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    lastChapter: Schema.Attribute.Decimal;
+    lasChapter: Schema.Attribute.Decimal & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -653,9 +666,9 @@ export interface ApiLibraryLibrary extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    books: Schema.Attribute.Relation<'oneToMany', 'api::book.book'>;
+    books: Schema.Attribute.Relation<'manyToMany', 'api::book.book'>;
     bookStatus: Schema.Attribute.Enumeration<
-      ['Completed', 'Favourite', 'Abandoned', 'Reading', 'Waiting']
+      ['completed', 'favourite', 'abandoned', 'reading', 'planning']
     >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -680,7 +693,6 @@ export interface ApiLibraryLibrary extends Struct.CollectionTypeSchema {
 export interface ApiNavbarNavbar extends Struct.SingleTypeSchema {
   collectionName: 'navbars';
   info: {
-    description: '';
     displayName: 'Navbar';
     pluralName: 'navbars';
     singularName: 'navbar';
@@ -698,17 +710,15 @@ export interface ApiNavbarNavbar extends Struct.SingleTypeSchema {
       'api::navbar.navbar'
     > &
       Schema.Attribute.Private;
-    logotype: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    logotype: Schema.Attribute.Media<'images'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     wellcomeMessage: Schema.Attribute.String &
-      Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 42;
-      }> &
-      Schema.Attribute.DefaultTo<'Your Haven for the Best Stories'>;
+      }>;
   };
 }
 
@@ -716,6 +726,7 @@ export interface ApiNotificationNotification
   extends Struct.CollectionTypeSchema {
   collectionName: 'notifications';
   info: {
+    description: '';
     displayName: 'Notification';
     pluralName: 'notifications';
     singularName: 'notification';
@@ -735,8 +746,7 @@ export interface ApiNotificationNotification
       'api::notification.notification'
     > &
       Schema.Attribute.Private;
-    priority: Schema.Attribute.Enumeration<['low', 'medium', 'high']> &
-      Schema.Attribute.Required;
+    priority: Schema.Attribute.Enumeration<['low', 'middle', 'high']>;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
@@ -1208,16 +1218,18 @@ export interface PluginUsersPermissionsUser
   attributes: {
     avatar: Schema.Attribute.Media<'images'>;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    comment_book: Schema.Attribute.Relation<
-      'oneToOne',
+    books: Schema.Attribute.Relation<'oneToMany', 'api::book.book'>;
+    chapters: Schema.Attribute.Relation<'oneToMany', 'api::chapter.chapter'>;
+    comment_books: Schema.Attribute.Relation<
+      'oneToMany',
       'api::comment-book.comment-book'
     >;
-    comment_chapter: Schema.Attribute.Relation<
-      'oneToOne',
+    comment_chapters: Schema.Attribute.Relation<
+      'oneToMany',
       'api::comment-chapter.comment-chapter'
     >;
-    comment_reply: Schema.Attribute.Relation<
-      'oneToOne',
+    comment_replies: Schema.Attribute.Relation<
+      'oneToMany',
       'api::comment-reply.comment-reply'
     >;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;

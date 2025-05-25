@@ -2,6 +2,7 @@ import { User } from "./user"
 
 export interface Notification {
     id?: number
+    documentId: string
     title: string
     content: string
     priority: 'low' | 'medium' | 'high'
